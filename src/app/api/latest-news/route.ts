@@ -8,6 +8,7 @@ export async function GET(request: Request) {
 		const offset = searchParams.get("offset") || "0";
 		const limit = searchParams.get("limit") || "20";
 
+		// This has pretty strict rate limits
 		const url = new URL(
 			"https://api.nytimes.com/svc/news/v3/content/all/all.json",
 		);

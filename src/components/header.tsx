@@ -29,6 +29,8 @@ import {
 	LogOut,
 	LogIn,
 	X,
+	Star,
+	AlignJustify,
 } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
@@ -84,7 +86,7 @@ export function Header(props: HeaderProps) {
 
 	return (
 		<header className="flex flex-col md:flex-row gap-12 items-start md:items-center py-10 pb-6 md:pb-0 w-full">
-			<div className="flex items-center md:w-fit w-full justify-between gap-4">
+			<div className="flex items-center md:w-fit w-full justify-between gap-4 px-2">
 				<Link href="/">
 					<svg
 						width="137"
@@ -107,7 +109,7 @@ export function Header(props: HeaderProps) {
 				</Link>
 				<Drawer open={open} onOpenChange={setOpen}>
 					<DrawerTrigger asChild>
-						<Sidebar className="md:hidden" />
+						<AlignJustify className="md:hidden" />
 					</DrawerTrigger>
 					<DrawerContent className="min-w-full">
 						{user ? (
@@ -212,9 +214,9 @@ export function Header(props: HeaderProps) {
 					</DropdownMenuLabel>
 					{user && (
 						<DropdownMenuItem asChild={true}>
-							<Link href="/categories/favorites" className="cursor-pointer">
-								<Heart className="w-4 h-4 mr-2" />
-								Bookmarks
+							<Link href="/favorites" className="cursor-pointer">
+								<Star className="w-4 h-4 mr-2" />
+								Favorites
 							</Link>
 						</DropdownMenuItem>
 					)}

@@ -2,7 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { env } from "@/lib/env";
 import { LatestNewsBox } from "@/components/latest-news-box";
-import { Suspense } from "react";
+import { FavoriteButton } from "@/components/favorite-button";
+import { authClient } from "@/lib/auth-client";
+import { isAuthenticated } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 interface PageProps {
 	searchParams: Promise<{
@@ -13,7 +16,23 @@ interface PageProps {
 }
 
 export default async function Page(props: PageProps) {
+	const user = await isAuthenticated();
 	const searchParams = await props.searchParams;
+
+	// Fetch initial latest news data
+	const latestNews = await fetch(
+		`${env.NEXT_PUBLIC_AUTH_URL}/api/latest-news?offset=0&limit=20`,
+	)
+		.then((res) => res.json())
+		.then((data) => data?.results ?? []);
+
+	const favorites = user
+		? await prisma.favorite.findMany({
+				where: { userId: user.id },
+				select: { url: true },
+			})
+		: [];
+	const favoritedUrls = new Set(favorites.map((f) => f.url));
 
 	const url = new URL("https://newsapi.org/v2/top-headlines");
 
@@ -54,8 +73,14 @@ export default async function Page(props: PageProps) {
 							href={article.url}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
+							className="relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
 						>
+							{user && (
+								<FavoriteButton
+									article={article}
+									isFavorited={favoritedUrls.has(article.url)}
+								/>
+							)}
 							<Image
 								src={article.urlToImage}
 								alt={article.title}
@@ -78,7 +103,10 @@ export default async function Page(props: PageProps) {
 					);
 
 					if (index === 1 && !searchParams?.category && !searchParams?.query) {
-						return [articleElement, <LatestNewsBox key="featured" />];
+						return [
+							articleElement,
+							<LatestNewsBox key="featured" initialNews={latestNews} />,
+						];
 					}
 
 					return [articleElement];
@@ -86,7 +114,7 @@ export default async function Page(props: PageProps) {
 			</div>
 			<div className="md:hidden flex flex-col w-full gap-4">
 				{searchParams?.type === "latest" ? (
-					<LatestNewsBox key="featured" />
+					<LatestNewsBox key="featured" initialNews={latestNews} />
 				) : (
 					<>
 						{news.map((article) => (
@@ -95,8 +123,14 @@ export default async function Page(props: PageProps) {
 								href={article.url}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
+								className="relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
 							>
+								{user && (
+									<FavoriteButton
+										article={article}
+										isFavorited={favoritedUrls.has(article.url)}
+									/>
+								)}
 								<Image
 									src={article.urlToImage}
 									alt={article.title}

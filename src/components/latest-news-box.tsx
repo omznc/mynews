@@ -12,12 +12,16 @@ interface Article {
 	title: string;
 }
 
+interface LatestNewsBoxProps {
+	initialNews: Article[];
+}
+
 // This was built from scratch, but I'd usually use https://swr.vercel.app/, or even TanStack Query
-export function LatestNewsBox() {
-	const [news, setNews] = useState<Article[]>([]);
+export function LatestNewsBox({ initialNews }: LatestNewsBoxProps) {
+	const [news, setNews] = useState<Article[]>(initialNews);
 	const [reachedEnd, setReachedEnd] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [offset, setOffset] = useState(0);
+	const [offset, setOffset] = useState(initialNews.length);
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	const fetchNews = async () => {
@@ -67,7 +71,7 @@ export function LatestNewsBox() {
 	}, [isLoading, reachedEnd]);
 
 	return (
-		<div className="flex justify-between bg-white flex-col w-full min-w-full md:w-fit md:row-span-2 rounded-[8px]">
+		<div className="flex transition-all justify-between bg-white flex-col w-full min-w-full md:w-fit md:row-span-2 rounded-[8px]">
 			<div className="flex items-center gap-2 p-4 pb-4">
 				<svg
 					width="20"

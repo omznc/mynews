@@ -1,8 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Star } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 function slugify(string: string) {
 	return string
@@ -17,6 +18,8 @@ export function CategoryButtons(props: {
 	className?: HTMLDivElement["className"];
 }) {
 	const searchParams = useSearchParams();
+	const path = usePathname();
+
 	const selectedCategory = searchParams?.get("category");
 	return (
 		<div className={cn("flex flex-col gap-1", props.className)}>
@@ -24,9 +27,10 @@ export function CategoryButtons(props: {
 				const key = slugify(category.name);
 				return (
 					<Link
-						href={key === "home" ? "?" : `?category=${key}`}
+						href={key === "home" ? "/?" : `/?category=${key}`}
 						data-active={
-							(!selectedCategory && key === "home") || key === selectedCategory
+							(!selectedCategory && key === "home" && path === "/") ||
+							key === selectedCategory
 						}
 						key={category.name}
 						className="transition-all group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
@@ -38,6 +42,16 @@ export function CategoryButtons(props: {
 					</Link>
 				);
 			})}
+			<Link
+				href="/favorites"
+				data-active={path === "/favorites"}
+				className="transition-all group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
+			>
+				<Star className="size-6 group-data-[active=true]:text-primary" />
+				<h4 className="transition-all font-semibold text-sm md:text-xs text-[#1D1D1B] group-data-[active=true]:text-primary">
+					Favorites
+				</h4>
+			</Link>
 		</div>
 	);
 }
