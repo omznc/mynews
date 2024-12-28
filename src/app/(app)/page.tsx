@@ -1,10 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { env } from "@/lib/env";
-import {
-	LatestNewsBox,
-	LatestNewsBoxSkeleton,
-} from "@/components/latest-news-box";
+import { LatestNewsBox } from "@/components/latest-news-box";
 import { Suspense } from "react";
 
 interface PageProps {

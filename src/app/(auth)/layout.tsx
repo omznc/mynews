@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { House } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 
 const variants = {
 	hidden: { x: -700, y: 0, filter: "blur(5px)" },
@@ -41,7 +41,7 @@ export default function RootLayout({
 						exit="exit"
 						transition={{ type: "tween", duration: 0.2 }}
 					>
-						{children}
+						<Suspense>{children}</Suspense>
 					</motion.div>
 				</AnimatePresence>
 			</Card>
