@@ -1,3 +1,6 @@
+
+![Screenshot 2024-12-29 at 03-07-16 MyNews](https://github.com/user-attachments/assets/574c6e23-5475-4157-9516-7b0e4089b027)
+
 ## My News
 
 This project is just a simple wrapper around the New York Times API. It allows you to search for articles, view the most popular ones, favorite them, and view your favorites. It was built using Next.js, and some of the coolest libraries out there (better-auth, nuqs, tailwind, prisma, and more).
