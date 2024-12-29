@@ -35,7 +35,7 @@ export function CategoryButtons(props: {
 							key === selectedCategory
 						}
 						key={category.name}
-						className="transition-all data-[active=true]:shadow-lg group flex flex-col items-center justify-center rounded-md p-0 size-[95px] md:size-[75px] gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
+						className="transition-all md:data-[active=true]:shadow-sm data-[active=true]:shadow-lg group flex flex-col items-center justify-center rounded-md p-0 size-[95px] md:size-[75px] gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
 					>
 						{category.icon}
 						<h4 className="transition-all font-semibold text-sm md:text-xs text-[#1D1D1B] group-data-[active=true]:text-primary">

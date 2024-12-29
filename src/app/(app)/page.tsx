@@ -59,7 +59,7 @@ export default async function Page(props: PageProps) {
 					? `Search results for "${searchParams.query}"`
 					: searchParams?.category
 						? `Top ${searchParams?.category} news`
-						: "Top Stories"}
+						: "News"}
 			</h2>
 			<div className="hidden md:grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 				{news.length === 0 && (
@@ -100,7 +100,9 @@ export default async function Page(props: PageProps) {
 										{article.title}
 									</h3>
 								</div>
-								<p>{article.byline.replace("By ", "")}</p>
+								<p className="text-[12px]">
+									{article.byline.replace("By ", "")}
+								</p>
 							</div>
 						</Link>
 					);
