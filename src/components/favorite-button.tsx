@@ -59,7 +59,7 @@ export function FavoriteButton({
 			className={cn(
 				"absolute top-2 right-2 p-2 rounded-lg hover:scale-110 transition-transform",
 				{
-					"group-hover:opacity-100 opacity-0 transition-all pointer-events-none group-hover:pointer-events-auto":
+					"md:group-hover:opacity-100 md:opacity-0 md:transition-all md:pointer-events-none md:group-hover:pointer-events-auto":
 						!optimisticFavorited,
 					"opacity-100": optimisticFavorited,
 				},
