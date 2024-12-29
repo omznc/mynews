@@ -61,7 +61,7 @@ export default async function Page(props: PageProps) {
 						? `Top ${searchParams?.category} news`
 						: "News"}
 			</h2>
-			<div className="hidden md:grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+			<div className="hidden md:grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
 				{news.length === 0 && (
 					<p className="text-center text-gray-500 mt-8">
 						No news found for this category
@@ -117,7 +117,7 @@ export default async function Page(props: PageProps) {
 					return [articleElement];
 				})}
 			</div>
-			<div className="md:hidden flex flex-col w-full gap-4">
+			<div className="md:hidden flex flex-col w-full gap-5">
 				{searchParams?.type === "latest" ? (
 					<LatestNewsBox key="featured" initialNews={latestNews} />
 				) : (

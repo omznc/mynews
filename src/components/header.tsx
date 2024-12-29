@@ -146,7 +146,7 @@ export function Header(props: HeaderProps) {
 									value={searchTerm}
 									onChange={(e) => setSearchTerm(e.target.value)}
 									placeholder="Search news"
-									className="h-12 rounded-lg border-none bg-white placeholder-opacity-40 pl-12"
+									className="h-12 rounded-lg border-none bg-white placeholder:opacity-50 pl-12"
 								/>
 								{query && (
 									<X
@@ -206,7 +206,7 @@ export function Header(props: HeaderProps) {
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
 					placeholder="Search news"
-					className="h-12 rounded-lg border-none bg-white placeholder-opacity-40 pl-12"
+					className="h-12 rounded-lg border-none bg-white placeholder:opacity-50 pl-12"
 				/>
 				{searchTerm && (
 					<X

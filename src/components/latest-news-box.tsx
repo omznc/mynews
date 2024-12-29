@@ -120,6 +120,7 @@ export function LatestNewsBox({ initialNews }: LatestNewsBoxProps) {
 									return date.toLocaleTimeString("en-US", {
 										hour: "2-digit",
 										minute: "2-digit",
+										hour12: false,
 									});
 								}
 								return formatDistanceToNow(date, { addSuffix: true });
