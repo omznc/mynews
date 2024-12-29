@@ -3,6 +3,7 @@
 import { Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import type { MouseEvent } from "react";
 
 interface FavoriteButtonProps {
 	article: {
@@ -21,7 +22,7 @@ export function FavoriteButton({
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 
-	const toggleFavorite = async (e: React.MouseEvent) => {
+	const toggleFavorite = (e: MouseEvent) => {
 		e.preventDefault();
 
 		setOptimisticFavorited(!optimisticFavorited);
@@ -51,6 +52,7 @@ export function FavoriteButton({
 
 	return (
 		<button
+			type="button"
 			onClick={toggleFavorite}
 			disabled={isPending}
 			className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:scale-110 transition-transform"

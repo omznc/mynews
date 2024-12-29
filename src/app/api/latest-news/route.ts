@@ -28,6 +28,7 @@ export async function GET(request: Request) {
 			},
 		});
 	} catch (error) {
+		console.error(error);
 		return new Response("Error fetching news", { status: 500 });
 	}
 }

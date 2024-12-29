@@ -3,7 +3,6 @@ import Image from "next/image";
 import { env } from "@/lib/env";
 import { LatestNewsBox } from "@/components/latest-news-box";
 import { FavoriteButton } from "@/components/favorite-button";
-import { authClient } from "@/lib/auth-client";
 import { isAuthenticated } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 

@@ -31,7 +31,7 @@ export default async function RootLayout({
 							<div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 								{Array.from({ length: 9 }).map((_, index) => (
 									<div
-										key={index}
+										key={`skeleton-${index}`}
 										className="animate-pulse bg-gray-200 rounded-[8px] h-[200px] w-full"
 									/>
 								))}

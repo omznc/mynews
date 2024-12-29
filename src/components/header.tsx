@@ -13,7 +13,6 @@ import {
 import {
 	Sheet,
 	SheetContent,
-	SheetDescription,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
@@ -22,10 +21,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { User } from "better-auth";
 import {
-	Sidebar,
 	Search,
 	UserIcon,
-	Heart,
 	LogOut,
 	LogIn,
 	X,
@@ -34,7 +31,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -61,20 +58,20 @@ export function Header(props: HeaderProps) {
 	});
 	const pathname = usePathname();
 	const router = useRouter();
-	const { user } = props;
 	const [searchTerm, setSearchTerm] = useState(query || "");
+
+	const { user } = props;
 
 	useEffect(() => {
 		setOpen(false);
 		setSearchTerm("");
 	}, [category, pathname]);
 
-	// Add this effect to sync searchTerm with query
 	useEffect(() => {
 		setSearchTerm(query || "");
 	}, [query]);
 
-	const handleSearch = async (e: React.FormEvent) => {
+	const handleSearch = (e: FormEvent) => {
 		e.preventDefault();
 		const trimmedTerm = searchTerm.trim();
 		if (!trimmedTerm) {
@@ -86,8 +83,8 @@ export function Header(props: HeaderProps) {
 			return;
 		}
 		setOpen(false);
-		await setCategory("");
-		await setQuery(trimmedTerm);
+		setCategory("");
+		setQuery(trimmedTerm);
 	};
 
 	return (
@@ -288,6 +285,7 @@ export function Header(props: HeaderProps) {
 			{pathname === "/" && (
 				<div className="md:hidden flex items-center w-full justify-center gap-2">
 					<button
+						type="button"
 						data-active={type === "featured"}
 						onClick={() => setType("featured")}
 						className="data-[active=true]:bg-[#BB1E1E1A]/10 data-[active=true]:text-primary font-semibold rounded-full py-2 px-4 flex items-center justify-center"
@@ -295,6 +293,7 @@ export function Header(props: HeaderProps) {
 						Featured
 					</button>
 					<button
+						type="button"
 						data-active={type === "latest"}
 						onClick={() => setType("latest")}
 						className="data-[active=true]:bg-[#BB1E1E1A]/10 data-[active=true]:text-primary font-semibold rounded-full py-2 px-4 flex items-center justify-center"

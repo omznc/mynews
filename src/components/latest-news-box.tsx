@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 
 interface Article {
 	url: string;
