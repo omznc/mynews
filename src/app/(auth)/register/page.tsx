@@ -37,6 +37,11 @@ export default function RegisterPage() {
 						const password = formData.get("password") as string;
 						const name = formData.get("name") as string;
 
+						if (password.length < 8) {
+							toast.error("Password must be at least 8 characters.");
+							return;
+						}
+
 						const success = await authClient.signUp.email(
 							{
 								email,

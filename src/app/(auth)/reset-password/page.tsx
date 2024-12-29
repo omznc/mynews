@@ -48,6 +48,11 @@ export default function LoginPage() {
 							return;
 						}
 
+						if (password.length < 8) {
+							toast.error("Password must be at least 8 characters.");
+							return;
+						}
+
 						await authClient.resetPassword(
 							{
 								newPassword: password,
@@ -93,7 +98,11 @@ export default function LoginPage() {
 							required={true}
 						/>
 					</div>
-					{isError && <p className="text-red-500 -mb-2">Invalid data</p>}
+					{isError && (
+						<p className="text-red-500 -mb-2">
+							There seems to be a problem, try again later
+						</p>
+					)}
 					<LoaderSubmitButton isLoading={isLoading} className="w-full">
 						Confirm
 					</LoaderSubmitButton>
