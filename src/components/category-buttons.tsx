@@ -22,7 +22,9 @@ export function CategoryButtons(props: {
 
 	const selectedCategory = searchParams?.get("category");
 	return (
-		<div className={cn("flex flex-col gap-1", props.className)}>
+		<div
+			className={cn("grid grid-cols-3 md:flex flex-col gap-1", props.className)}
+		>
 			{CATEGORIES.map((category) => {
 				const key = slugify(category.name);
 				return (
@@ -33,7 +35,7 @@ export function CategoryButtons(props: {
 							key === selectedCategory
 						}
 						key={category.name}
-						className="transition-all group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
+						className="transition-all data-[active=true]:shadow-lg group flex flex-col items-center justify-center rounded-md p-0 size-[95px] md:size-[75px] gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
 					>
 						{category.icon}
 						<h4 className="transition-all font-semibold text-sm md:text-xs text-[#1D1D1B] group-data-[active=true]:text-primary">
@@ -45,7 +47,7 @@ export function CategoryButtons(props: {
 			<Link
 				href="/favorites"
 				data-active={path === "/favorites"}
-				className="transition-all group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
+				className="transition-all group flex flex-col items-center justify-center rounded-md p-0 size-[95px] md:size-[75px] gap-1 data-[active=true]:bg-white hover:bg-white/50 data-[active=false]:opacity-70"
 			>
 				<Star className="size-6 group-data-[active=true]:text-primary" />
 				<h4 className="transition-all font-semibold text-sm md:text-xs text-[#1D1D1B] group-data-[active=true]:text-primary">

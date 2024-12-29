@@ -54,7 +54,9 @@ export default async function Page(props: PageProps) {
 	const news = await fetch(url.toString())
 		.then((res) => res.json())
 		.then((res) => res as NewsAPIResponse)
-		.then((res) => res.articles.filter((article) => article.urlToImage));
+		.then((res) =>
+			(res.articles ?? []).filter((article) => article.urlToImage),
+		);
 
 	return (
 		<div className="flex flex-col gap-4 w-full animate-fade-in-up">
@@ -66,6 +68,11 @@ export default async function Page(props: PageProps) {
 						: "News"}
 			</h2>
 			<div className="hidden md:grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+				{news.length === 0 && (
+					<p className="text-center text-gray-500 mt-8">
+						No news found for this category
+					</p>
+				)}
 				{news.flatMap((article, index) => {
 					const articleElement = (
 						<Link
@@ -117,6 +124,11 @@ export default async function Page(props: PageProps) {
 					<LatestNewsBox key="featured" initialNews={latestNews} />
 				) : (
 					<>
+						{news.length === 0 && (
+							<p className="text-center text-gray-500 mt-8">
+								No news found for this category
+							</p>
+						)}
 						{news.map((article) => (
 							<Link
 								key={article.url}

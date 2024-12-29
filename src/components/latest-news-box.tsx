@@ -71,7 +71,7 @@ export function LatestNewsBox({ initialNews }: LatestNewsBoxProps) {
 	}, [isLoading, reachedEnd]);
 
 	return (
-		<div className="flex transition-all justify-between bg-white flex-col w-full min-w-full md:w-fit md:row-span-2 rounded-[8px]">
+		<div className="flex transition-all animate-fade-in-up justify-between bg-white flex-col w-full min-w-full md:w-fit md:row-span-2 rounded-[8px]">
 			<div className="flex items-center gap-2 p-4 pb-4">
 				<svg
 					width="20"
