@@ -16,7 +16,12 @@ export async function GET(request: Request) {
 		url.searchParams.set("offset", offset);
 		url.searchParams.set("limit", limit);
 
-		const response = await fetch(url.toString());
+		const response = await fetch(url.toString(), {
+			cache: "force-cache",
+			next: {
+				revalidate: 300,
+			},
+		});
 		const data = await response.json();
 
 		return Response.json({
