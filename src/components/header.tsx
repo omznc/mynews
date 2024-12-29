@@ -226,7 +226,7 @@ export function Header(props: HeaderProps) {
 				</Button>
 			</form>
 			<DropdownMenu>
-				<DropdownMenuTrigger className="hidden md:flex justify-center hover:bg-neutral-200 transition-all items-center gap-4 bg-white border aspect-square h-12 rounded-md">
+				<DropdownMenuTrigger className="hidden ml-auto md:flex justify-center hover:bg-neutral-200 transition-all items-center gap-4 bg-white border aspect-square h-12 rounded-md">
 					<UserIcon className="w-6 h-6" />
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="w-56" align="end" forceMount={true}>
