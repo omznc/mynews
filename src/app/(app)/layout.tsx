@@ -21,7 +21,7 @@ export default async function RootLayout({
 	return (
 		<>
 			<HomepageNotification />
-			<div className="w-full max-w-5xl px-4">
+			<div className="w-full max-w-[1095px] px-4">
 				<Header user={user} />
 				<hr className="hidden md:block border-t my-6" />
 				<div className="flex gap-6 pb-6">

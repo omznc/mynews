@@ -51,7 +51,7 @@ export function HomepageNotification() {
 						alt="notification background image"
 						className="absolute md:right-[18%] min-w-[700px] md:min-w-0 w-[800px] md:w-[550px] h-full opacity-15 saturate-0"
 					/>
-					<div className="px-4 flex flex-col md:flex-row max-w-5xl justify-between w-full relative z-10 gap-4 md:gap-0">
+					<div className="px-4 flex flex-col md:flex-row max-w-[1095px] justify-between w-full relative z-10 gap-4 md:gap-0">
 						<div className="flex flex-col md:flex-row gap-1 md:gap-8 text-primary-foreground items-start md:items-center text-sm">
 							<h3 className="font-bold whitespace-nowrap">
 								Make MyNews your homepage
