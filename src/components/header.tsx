@@ -121,7 +121,7 @@ export function Header(props: HeaderProps) {
 						<SheetHeader>
 							<Link
 								href="/"
-								className="h-[300px] w-full flex items-center justify-center"
+								className="h-[200px] w-full flex items-center justify-center"
 							>
 								<svg
 									width="137"
