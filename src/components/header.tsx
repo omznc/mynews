@@ -172,45 +172,31 @@ export function Header(props: HeaderProps) {
 						</div>
 						<div className="flex flex-col gap-4 items-center justify-center">
 							{user ? (
-								<>
-									<div className="flex flex-col items-center gap-2">
-										<SheetTitle>Welcome back, {user?.name}!</SheetTitle>
-										<SheetDescription>Ready to explore?</SheetDescription>
-									</div>
-									<button
-										type="button"
-										onClick={async () => {
-											const resp = await authClient.signOut();
-											if (!resp.error) {
-												router.refresh();
-											}
-										}}
-										className="transition-all py-4 px-4 group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 bg-white"
-									>
-										<LogOut className="size-6" />
-										<h4 className="transition-all font-semibold text-sm md:text-xs">
-											Log out
-										</h4>
-									</button>
-								</>
+								<button
+									type="button"
+									onClick={async () => {
+										const resp = await authClient.signOut();
+										if (!resp.error) {
+											router.refresh();
+										}
+									}}
+									className="transition-all py-4 px-4 group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 bg-white"
+								>
+									<LogOut className="size-6" />
+									<h4 className="transition-all font-semibold text-sm md:text-xs">
+										Log out
+									</h4>
+								</button>
 							) : (
-								<>
-									<div className="flex flex-col items-center gap-2">
-										<SheetTitle>Join us!</SheetTitle>
-										<SheetDescription>
-											Sign in to get personalized news, bookmarks, and more!
-										</SheetDescription>
-									</div>
-									<Link
-										href={"/login"}
-										className="transition-all py-4 px-4 group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 bg-white"
-									>
-										<LogIn className="size-6" />
-										<h4 className="transition-all font-semibold text-sm md:text-xs">
-											Log in
-										</h4>
-									</Link>
-								</>
+								<Link
+									href={"/login"}
+									className="transition-all py-4 px-4 group flex flex-row md:flex-col items-center md:justify-center rounded-md p-2 md:p-0 md:h-[75px] w-full md:w-[75px] gap-2 md:gap-1 bg-white"
+								>
+									<LogIn className="size-6" />
+									<h4 className="transition-all font-semibold text-sm md:text-xs">
+										Log in
+									</h4>
+								</Link>
 							)}
 						</div>
 					</SheetContent>
