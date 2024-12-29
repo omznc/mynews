@@ -6,6 +6,8 @@ import { FavoriteButton } from "@/components/favorite-button";
 import { isAuthenticated } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export const revalidate = 300;
+
 interface PageProps {
 	searchParams: Promise<{
 		category?: string;
@@ -19,6 +21,7 @@ export default async function Page(props: PageProps) {
 	const searchParams = await props.searchParams;
 
 	// Fetch initial latest news data
+	// This exists so we can prerender the latest news box
 	const latestNews = await fetch(
 		`${env.NEXT_PUBLIC_AUTH_URL}/api/latest-news?offset=0&limit=20`,
 	)
@@ -33,11 +36,15 @@ export default async function Page(props: PageProps) {
 		: [];
 	const favoritedUrls = new Set(favorites.map((f) => f.url));
 
-	// Use NYTimes Top Stories API
 	const section = searchParams.category || "home";
 	const url = `https://api.nytimes.com/svc/topstories/v2/${section === "general" ? "home" : section}.json?api-key=${env.NEW_YORK_TIMES_API_KEY}`;
 
-	const news = await fetch(url)
+	const news = await fetch(url, {
+		cache: "force-cache",
+		next: {
+			revalidate: 300,
+		},
+	})
 		.then((res) => res.json())
 		.then((res) => res as NYTimesResponse)
 		.then((res) =>
