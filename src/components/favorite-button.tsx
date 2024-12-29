@@ -1,21 +1,22 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import type { MouseEvent } from "react";
 
 interface FavoriteButtonProps {
-	article: {
-		title: string;
-		url: string;
-		urlToImage: string;
-	};
+	title: string;
+	url: string;
+	image?: string;
 	isFavorited?: boolean;
 }
 
 export function FavoriteButton({
-	article,
+	title,
+	url,
+	image,
 	isFavorited = false,
 }: FavoriteButtonProps) {
 	const [optimisticFavorited, setOptimisticFavorited] = useState(isFavorited);
@@ -33,9 +34,9 @@ export function FavoriteButton({
 					method: optimisticFavorited ? "DELETE" : "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({
-						title: article.title,
-						url: article.url,
-						imageUrl: article.urlToImage,
+						title: title,
+						url: url,
+						imageUrl: image,
 					}),
 				});
 
@@ -55,14 +56,20 @@ export function FavoriteButton({
 			type="button"
 			onClick={toggleFavorite}
 			disabled={isPending}
-			className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:scale-110 transition-transform"
+			className={cn(
+				"absolute top-2 right-2 p-2 rounded-lg hover:scale-110 transition-transform",
+				{
+					"group-hover:opacity-100 opacity-0 transition-all pointer-events-none group-hover:pointer-events-auto":
+						!optimisticFavorited,
+					"opacity-100": optimisticFavorited,
+				},
+			)}
 		>
 			<Star
-				className={`h-4 w-4 ${
-					optimisticFavorited
-						? "fill-yellow-400 stroke-yellow-400"
-						: "stroke-gray-600"
-				}`}
+				className={cn("h-4 w-4 drop-shadow-md transition-all", {
+					"fill-yellow-400 stroke-yellow-400": optimisticFavorited,
+					"stroke-white fill-neutral-500": !optimisticFavorited,
+				})}
 			/>
 		</button>
 	);

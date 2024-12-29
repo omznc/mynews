@@ -33,28 +33,16 @@ export default async function Page(props: PageProps) {
 		: [];
 	const favoritedUrls = new Set(favorites.map((f) => f.url));
 
-	const url = new URL("https://newsapi.org/v2/top-headlines");
+	// Use NYTimes Top Stories API
+	const section = searchParams.category || "home";
+	const url = `https://api.nytimes.com/svc/topstories/v2/${section === "general" ? "home" : section}.json?api-key=${env.NEW_YORK_TIMES_API_KEY}`;
 
-	if (searchParams.query) {
-		// Switch to "everything" endpoint for search queries
-		url.href = "https://newsapi.org/v2/everything";
-		url.searchParams.set("q", searchParams.query);
-		url.searchParams.set("sortBy", "publishedAt");
-	} else {
-		// Use top-headlines for category/default view
-		url.searchParams.set("country", "us");
-		if (searchParams.category) {
-			url.searchParams.set("category", searchParams.category);
-		}
-	}
-
-	url.searchParams.set("apiKey", env.NEWS_API_ORG_API_KEY);
-
-	const news = await fetch(url.toString())
+	const news = await fetch(url)
 		.then((res) => res.json())
-		.then((res) => res as NewsAPIResponse)
+		.then((res) => res as NYTimesResponse)
 		.then((res) =>
-			(res.articles ?? []).filter((article) => article.urlToImage),
+			// I want this to look cool, so I'm filtering out articles without images
+			(res.results ?? []).filter((article) => article.multimedia?.length > 0),
 		);
 
 	return (
@@ -64,7 +52,7 @@ export default async function Page(props: PageProps) {
 					? `Search results for "${searchParams.query}"`
 					: searchParams?.category
 						? `Top ${searchParams?.category} news`
-						: "News"}
+						: "Top Stories"}
 			</h2>
 			<div className="hidden md:grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 				{news.length === 0 && (
@@ -79,16 +67,18 @@ export default async function Page(props: PageProps) {
 							href={article.url}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
+							className="group relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm hover:shadow-lg rounded-[8px] transition-all hover:border-primary border-transparent border"
 						>
 							{user && (
 								<FavoriteButton
-									article={article}
+									title={article.title}
+									url={article.url}
+									image={article.multimedia[0]?.url ?? ""}
 									isFavorited={favoritedUrls.has(article.url)}
 								/>
 							)}
 							<Image
-								src={article.urlToImage}
+								src={article.multimedia[0]?.url!}
 								alt={article.title}
 								height={160}
 								width={160}
@@ -97,13 +87,13 @@ export default async function Page(props: PageProps) {
 							<div className="p-4 pt-2 h-full flex flex-col justify-between">
 								<div className="flex flex-col gap-1">
 									<span className="text-[#1E71BB] font-bold text-[12px]">
-										CATEGORY
+										{article.section.toUpperCase()}
 									</span>
 									<h3 className="font-bold text-[16px] line-clamp-3">
 										{article.title}
 									</h3>
 								</div>
-								<p>{article.author}</p>
+								<p>{article.byline.replace("By ", "")}</p>
 							</div>
 						</Link>
 					);
@@ -134,16 +124,18 @@ export default async function Page(props: PageProps) {
 								href={article.url}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
+								className="group relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
 							>
 								{user && (
 									<FavoriteButton
-										article={article}
+										title={article.title}
+										url={article.url}
+										image={article.multimedia[0]?.url ?? ""}
 										isFavorited={favoritedUrls.has(article.url)}
 									/>
 								)}
 								<Image
-									src={article.urlToImage}
+									src={article.multimedia[0]?.url!}
 									alt={article.title}
 									height={160}
 									width={160}
@@ -152,13 +144,13 @@ export default async function Page(props: PageProps) {
 								<div className="p-4 pt-2 h-full flex flex-col justify-between">
 									<div className="flex flex-col gap-1">
 										<span className="text-[#1E71BB] font-bold text-[12px]">
-											CATEGORY
+											{article.section.toUpperCase()}
 										</span>
 										<h3 className="font-bold text-[16px] line-clamp-3">
 											{article.title}
 										</h3>
 									</div>
-									<p>{article.author}</p>
+									<p>{article.byline.replace("By ", "")}</p>
 								</div>
 							</Link>
 						))}
@@ -168,20 +160,41 @@ export default async function Page(props: PageProps) {
 		</div>
 	);
 }
-interface NewsAPIResponse {
+
+interface NYTimesResponse {
 	status: string;
-	totalResults: number;
-	articles: {
-		source: {
-			id: string | null;
-			name: string;
-		};
-		author: string;
+	copyright: string;
+	section: string;
+	last_updated: string;
+	num_results: number;
+	results: {
+		section: string;
+		subsection: string;
 		title: string;
-		description: string;
+		abstract: string;
 		url: string;
-		urlToImage: string;
-		publishedAt: string;
-		content: string;
+		uri: string;
+		byline: string;
+		item_type: string;
+		updated_date: string;
+		created_date: string;
+		published_date: string;
+		material_type_facet: string;
+		kicker: string;
+		des_facet: string[];
+		org_facet: string[];
+		per_facet: string[];
+		geo_facet: string[];
+		multimedia: Array<{
+			url: string;
+			format: string;
+			height: number;
+			width: number;
+			type: string;
+			subtype: string;
+			caption: string;
+			copyright: string;
+		}>;
+		short_url: string;
 	}[];
 }

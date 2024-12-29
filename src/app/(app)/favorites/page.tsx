@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { FavoriteButton } from "@/components/favorite-button";
 import { prisma } from "@/lib/prisma";
 import { isAuthenticated } from "@/lib/auth";
+import { formatDistanceToNow } from "date-fns";
 
 export default async function FavoritesPage() {
 	const user = await isAuthenticated();
@@ -26,14 +27,12 @@ export default async function FavoritesPage() {
 						href={favorite.url}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
+						className="group relative animate-fade-in-up flex flex-col gap-2 bg-white shadow-sm rounded-[8px] transition-all hover:border-primary border-transparent border"
 					>
 						<FavoriteButton
-							article={{
-								title: favorite.title,
-								url: favorite.url,
-								urlToImage: favorite.imageUrl,
-							}}
+							title={favorite.title}
+							url={favorite.url}
+							image={favorite.imageUrl}
 							isFavorited={true}
 						/>
 						<Image
@@ -46,7 +45,10 @@ export default async function FavoritesPage() {
 						<div className="p-4 pt-2 h-full flex flex-col justify-between">
 							<div className="flex flex-col gap-1">
 								<span className="text-[#1E71BB] font-bold text-[12px]">
-									FAVORITE
+									Favorited{" "}
+									{formatDistanceToNow(favorite.createdAt, {
+										addSuffix: true,
+									})}
 								</span>
 								<h3 className="font-bold text-[16px] line-clamp-3">
 									{favorite.title}
