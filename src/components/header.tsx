@@ -142,6 +142,7 @@ export function Header(props: HeaderProps) {
 							<form onSubmit={handleSearch} className="relative w-full">
 								<Search className="absolute top-1/2 left-3 transform opacity-40 -translate-y-1/2" />
 								<Input
+									autoFocus={false}
 									key={query}
 									value={searchTerm}
 									onChange={(e) => setSearchTerm(e.target.value)}
